@@ -11,19 +11,18 @@
 <body>
 
 <div class="cena">
-  <div class="hero">
-    <img class="hero-imagem" src="{{ url_for('static', filename='assets/sao-miguel-arcanjo.jpg') }}" alt="São Miguel Arcanjo">
-    <div class="hero-veu"></div>
-    <div class="topo">
-      <p class="brasao">Fé &amp; Caminho</p>
-    </div>
+  <img class="fundo-imagem" src="{{ url_for('static', filename='assets/sao-miguel-arcanjo.jpg') }}" alt="São Miguel Arcanjo">
+  <div class="fundo-veu"></div>
+
+  <div class="topo">
+    <p class="brasao">Fé &amp; Caminho</p>
   </div>
 
-  <div class="painel-inferior">
-    <div class="conteudo">
-      <div class="cartao">
-        {% block conteudo_cartao %}{% endblock %}
-      </div>
+  <div class="espaco-reserva"></div>
+
+  <div class="conteudo">
+    <div class="cartao">
+      {% block conteudo_cartao %}{% endblock %}
     </div>
   </div>
 </div>
