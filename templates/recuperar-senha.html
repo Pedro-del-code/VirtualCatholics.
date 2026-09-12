@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block titulo %}Fé & Caminho — Recuperar acesso{% endblock %}
+
+{% block conteudo_cartao %}
+<div id="bloco-formulario">
+  <h1>Recuperar acesso</h1>
+  <p class="subtitulo">Sem problemas. Vamos te ajudar a voltar à sua conta.</p>
+
+  <div class="abas">
+    <a class="aba" href="{{ url_for('tela_login') }}">Entrar</a>
+    <a class="aba" href="{{ url_for('tela_criar_conta') }}">Criar conta</a>
+    <a class="aba ativa" href="{{ url_for('tela_recuperar_senha') }}">Recuperar acesso</a>
+  </div>
+
+  <div class="selo-erro" id="selo-erro"></div>
+
+  <form id="form-recuperar" novalidate>
+    <p class="mensagem-recuperar">Informe o e-mail da sua conta. Enviaremos um link para você criar uma nova senha.</p>
+    <div class="campo">
+      <label for="recuperar-email">E-mail</label>
+      <input type="email" id="recuperar-email" placeholder="seu@email.com" autocomplete="email" required>
+    </div>
+    <button type="submit" class="btn-principal">Enviar link de recuperação</button>
+    <p class="rodape-painel" style="margin-top:16px;">Lembrou a senha? <a href="{{ url_for('tela_login') }}">Voltar a entrar</a></p>
+  </form>
+</div>
+
+<div class="confirmacao" id="confirmacao-recuperar">
+  <div class="icone">✓</div>
+  <h1 style="font-size:22px;">Verifique seu e-mail</h1>
+  <p class="mensagem-recuperar">Se houver uma conta com esse endereço, enviamos o link de recuperação em instantes.</p>
+  <a class="btn-principal" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;" href="{{ url_for('tela_login') }}">Voltar a entrar</a>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+(function(){
+  const blocoFormulario = document.getElementById('bloco-formulario');
+  const confirmacao = document.getElementById('confirmacao-recuperar');
+  const seloErro = document.getElementById('selo-erro');
+
+  function exibirErro(msg){
+    seloErro.textContent = msg;
+    seloErro.classList.add('mostrar');
+    seloErro.classList.remove('sucesso');
+  }
+
+  const form = document.getElementById('form-recuperar');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('recuperar-email').value.trim();
+    if(!email){
+      exibirErro('Informe um e-mail válido.');
+      return;
+    }
+    seloErro.classList.remove('mostrar');
+    const botao = form.querySelector('.btn-principal');
+    botao.disabled = true;
+
+    try{
+      const resposta = await fetch('/api/recuperar-senha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const dados = await resposta.json().catch(() => ({}));
+      if(!resposta.ok){
+        throw new Error(dados.erro || 'Não foi possível enviar o link.');
+      }
+      blocoFormulario.style.display = 'none';
+      confirmacao.classList.add('mostrar');
+    }catch(erro){
+      exibirErro(erro.message);
+    }finally{
+      botao.disabled = false;
+    }
+  });
+})();
+</script>
+{% endblock %}

@@ -1,66 +1,42 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Fé & Caminho — Redefinir senha</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
+{% block titulo %}Fé & Caminho — Redefinir senha{% endblock %}
 
-<div class="cena">
-  <div class="hero">
-    <img class="hero-imagem" src="{{ url_for('static', filename='assets/sao-miguel-arcanjo.jpg') }}" alt="São Miguel Arcanjo">
-    <div class="hero-veu"></div>
-    <div class="topo">
-      <p class="brasao">Fé &amp; Caminho</p>
+{% block conteudo_cartao %}
+<div id="bloco-formulario">
+  <h1>Criar nova senha</h1>
+  <p class="subtitulo">Escolha uma senha nova para voltar a acessar sua conta.</p>
+
+  <div class="selo-erro" id="selo-erro"></div>
+
+  <form id="form-redefinir" novalidate>
+    <div class="campo">
+      <label for="nova-senha">Nova senha</label>
+      <input type="password" id="nova-senha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password" minlength="8" required>
     </div>
-  </div>
-
-  <div class="painel-inferior">
-    <div class="conteudo">
-      <div class="cartao">
-
-      <div id="bloco-formulario">
-        <h1>Criar nova senha</h1>
-        <p class="subtitulo">Escolha uma senha nova para voltar a acessar sua conta.</p>
-
-        <div class="selo-erro" id="selo-erro"></div>
-
-        <form id="form-redefinir" novalidate>
-          <div class="campo">
-            <label for="nova-senha">Nova senha</label>
-            <input type="password" id="nova-senha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password" minlength="8" required>
-          </div>
-          <div class="campo">
-            <label for="nova-senha-confirma">Confirmar nova senha</label>
-            <input type="password" id="nova-senha-confirma" placeholder="Repita a senha" autocomplete="new-password" required>
-          </div>
-          <button type="submit" class="btn-principal">Salvar nova senha</button>
-        </form>
-      </div>
-
-      <div class="confirmacao" id="confirmacao-redefinir">
-        <div class="icone">✓</div>
-        <h1 style="font-size:22px;">Senha redefinida</h1>
-        <p class="mensagem-recuperar">Sua senha foi alterada com sucesso. Já pode entrar com a senha nova.</p>
-        <a class="btn-principal" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;" href="/">Voltar a entrar</a>
-      </div>
-
-      <div class="confirmacao" id="link-invalido">
-        <div class="icone">!</div>
-        <h1 style="font-size:22px;">Link ausente</h1>
-        <p class="mensagem-recuperar">Abra este link diretamente a partir do e-mail de recuperação que enviamos.</p>
-        <a class="btn-principal" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;" href="/">Voltar ao início</a>
-      </div>
-
+    <div class="campo">
+      <label for="nova-senha-confirma">Confirmar nova senha</label>
+      <input type="password" id="nova-senha-confirma" placeholder="Repita a senha" autocomplete="new-password" required>
     </div>
-    </div>
-  </div>
+    <button type="submit" class="btn-principal">Salvar nova senha</button>
+  </form>
 </div>
 
+<div class="confirmacao" id="confirmacao-redefinir">
+  <div class="icone">✓</div>
+  <h1 style="font-size:22px;">Senha redefinida</h1>
+  <p class="mensagem-recuperar">Sua senha foi alterada com sucesso. Já pode entrar com a senha nova.</p>
+  <a class="btn-principal" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;" href="{{ url_for('tela_login') }}">Voltar a entrar</a>
+</div>
+
+<div class="confirmacao" id="link-invalido">
+  <div class="icone">!</div>
+  <h1 style="font-size:22px;">Link ausente</h1>
+  <p class="mensagem-recuperar">Abra este link diretamente a partir do e-mail de recuperação que enviamos.</p>
+  <a class="btn-principal" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;" href="{{ url_for('tela_login') }}">Voltar ao início</a>
+</div>
+{% endblock %}
+
+{% block script %}
 <script>
 (function(){
   const token = {{ token|tojson }};
@@ -120,6 +96,4 @@
   });
 })();
 </script>
-
-</body>
-</html>
+{% endblock %}
