@@ -10,13 +10,18 @@
 </head>
 <body>
 
-<div class="cena" style="--imagem-fundo:url('{{ url_for("static", filename="assets/sao-miguel-arcanjo.jpg") }}');">
-  <div class="topo">
-    <p class="brasao">Fé &amp; Caminho</p>
+<div class="cena">
+  <div class="hero">
+    <img class="hero-imagem" src="{{ url_for('static', filename='assets/sao-miguel-arcanjo.jpg') }}" alt="São Miguel Arcanjo">
+    <div class="hero-veu"></div>
+    <div class="topo">
+      <p class="brasao">Fé &amp; Caminho</p>
+    </div>
   </div>
 
-  <div class="conteudo">
-    <div class="cartao">
+  <div class="painel-inferior">
+    <div class="conteudo">
+      <div class="cartao">
 
       <div id="bloco-formulario">
         <h1>Criar nova senha</h1>
@@ -51,6 +56,7 @@
         <a class="btn-principal" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;" href="/">Voltar ao início</a>
       </div>
 
+    </div>
     </div>
   </div>
 </div>
