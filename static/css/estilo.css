@@ -1,0 +1,305 @@
+:root{
+  --azul-noite: #171d33;
+  --azul-manto: #24304f;
+  --ouro: #c9a24b;
+  --ouro-claro: #e6cd8f;
+  --carmesim: #7a2530;
+  --creme: #f2e9d8;
+  --texto-suave: rgba(242,233,216,0.72);
+  --vidro: rgba(23,29,51,0.62);
+  --borda-vidro: rgba(201,162,75,0.35);
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:'Source Sans 3', sans-serif;
+  color:var(--creme);
+  background:#0d1120;
+  -webkit-font-smoothing:antialiased;
+}
+
+.cena{
+  position:relative;
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  overflow:hidden;
+}
+
+.cena::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:var(--imagem-fundo);
+  background-size:cover;
+  background-position:center 12%;
+  z-index:0;
+}
+
+/* véu que escurece só a parte de baixo, preservando o rosto do anjo */
+.cena::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(13,17,32,0.06) 0%,
+    rgba(13,17,32,0.10) 38%,
+    rgba(13,17,32,0.55) 56%,
+    rgba(13,17,32,0.86) 70%,
+    rgba(13,17,32,0.97) 100%
+  );
+  z-index:1;
+}
+
+.topo{
+  position:relative;
+  z-index:2;
+  padding:calc(env(safe-area-inset-top,0px) + 22px) 24px 0;
+  text-align:center;
+}
+
+.brasao{
+  font-family:'Cormorant Garamond', serif;
+  font-style:italic;
+  font-size:15px;
+  letter-spacing:0.04em;
+  color:var(--ouro-claro);
+  opacity:0.9;
+  margin:0;
+}
+
+.conteudo{
+  position:relative;
+  z-index:2;
+  padding:28px 20px calc(env(safe-area-inset-bottom,0px) + 28px);
+}
+
+.cartao{
+  background:var(--vidro);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--borda-vidro);
+  border-radius:18px 18px 14px 14px;
+  padding:26px 22px 22px;
+  max-width:420px;
+  margin:0 auto;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.35);
+}
+
+.cartao h1{
+  font-family:'Cormorant Garamond', serif;
+  font-weight:600;
+  font-size:30px;
+  line-height:1.15;
+  margin:0 0 4px;
+  color:var(--creme);
+}
+
+.subtitulo{
+  margin:0 0 20px;
+  font-size:14.5px;
+  color:var(--texto-suave);
+  line-height:1.4;
+}
+
+.abas{
+  display:flex;
+  gap:0;
+  border-bottom:1px solid rgba(242,233,216,0.16);
+  margin-bottom:20px;
+}
+
+.aba{
+  flex:1;
+  background:none;
+  border:none;
+  color:var(--texto-suave);
+  font-family:'Source Sans 3', sans-serif;
+  font-size:14.5px;
+  font-weight:600;
+  padding:10px 4px 12px;
+  cursor:pointer;
+  position:relative;
+  transition:color 0.2s ease;
+}
+
+.aba.ativa{ color:var(--ouro-claro); }
+
+.aba::after{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:-1px;
+  height:2px;
+  background:var(--ouro);
+  transform:scaleX(0);
+  transition:transform 0.25s ease;
+}
+
+.aba.ativa::after{ transform:scaleX(1); }
+
+.painel{ display:none; }
+.painel.ativo{ display:block; animation:surgir 0.3s ease; }
+
+@keyframes surgir{
+  from{ opacity:0; transform:translateY(6px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+.campo{ margin-bottom:16px; }
+
+.campo label{
+  display:block;
+  font-size:13px;
+  color:var(--texto-suave);
+  margin-bottom:6px;
+}
+
+.campo input{
+  width:100%;
+  padding:12px 13px;
+  background:rgba(242,233,216,0.06);
+  border:1px solid rgba(242,233,216,0.22);
+  border-radius:9px;
+  color:var(--creme);
+  font-size:15.5px;
+  font-family:'Source Sans 3', sans-serif;
+  outline:none;
+  transition:border-color 0.2s ease, background 0.2s ease;
+}
+
+.campo input::placeholder{ color:rgba(242,233,216,0.35); }
+
+.campo input:focus{
+  border-color:var(--ouro);
+  background:rgba(242,233,216,0.1);
+}
+
+.campo input:focus-visible{
+  outline:2px solid var(--ouro-claro);
+  outline-offset:2px;
+}
+
+.linha-auxiliar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:-4px 0 18px;
+  font-size:13px;
+}
+
+.lembrar{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--texto-suave);
+}
+
+.lembrar input{ accent-color:var(--ouro); width:15px; height:15px; }
+
+.link-esqueci{
+  background:none;
+  border:none;
+  color:var(--ouro-claro);
+  font-size:13px;
+  cursor:pointer;
+  padding:0;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+.btn-principal{
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:9px;
+  background:linear-gradient(180deg, var(--ouro-claro), var(--ouro));
+  color:#241a04;
+  font-size:15.5px;
+  font-weight:600;
+  font-family:'Source Sans 3', sans-serif;
+  cursor:pointer;
+  transition:transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-principal:hover{ box-shadow:0 6px 18px rgba(201,162,75,0.35); }
+.btn-principal:active{ transform:scale(0.98); }
+.btn-principal:disabled{ opacity:0.6; cursor:default; }
+
+.divisor{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:20px 0 16px;
+  color:rgba(242,233,216,0.35);
+  font-size:12.5px;
+}
+.divisor::before, .divisor::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:rgba(242,233,216,0.16);
+}
+
+.rodape-painel{
+  text-align:center;
+  font-size:13.5px;
+  color:var(--texto-suave);
+}
+
+.rodape-painel button{
+  background:none;
+  border:none;
+  color:var(--ouro-claro);
+  font-size:13.5px;
+  font-weight:600;
+  cursor:pointer;
+  padding:0 2px;
+}
+
+.mensagem-recuperar{
+  font-size:14px;
+  line-height:1.55;
+  color:var(--texto-suave);
+  margin:0 0 18px;
+}
+
+.selo-erro{
+  display:none;
+  font-size:13px;
+  color:#e8b4b4;
+  background:rgba(122,37,48,0.35);
+  border:1px solid rgba(122,37,48,0.6);
+  border-radius:8px;
+  padding:9px 11px;
+  margin-bottom:16px;
+}
+.selo-erro.mostrar{ display:block; }
+.selo-erro.sucesso{
+  color:#cfe8c9;
+  background:rgba(60,110,60,0.25);
+  border-color:rgba(60,110,60,0.5);
+}
+
+.confirmacao{
+  display:none;
+  text-align:center;
+  padding:6px 0 2px;
+}
+.confirmacao.mostrar{ display:block; animation:surgir 0.3s ease; }
+
+.confirmacao .icone{
+  width:46px;height:46px;
+  margin:0 auto 14px;
+  border-radius:50%;
+  border:1.5px solid var(--ouro);
+  display:flex;align-items:center;justify-content:center;
+}
+
+@media (min-width:480px){
+  .cena::before{ background-position:center 8%; }
+}
