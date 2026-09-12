@@ -98,7 +98,17 @@ def enviar_email_recuperacao(email_destino, link):
 
 @app.route("/")
 def tela_login():
-    return render_template("index.html")
+    return render_template("entrar.html")
+
+
+@app.route("/criar-conta")
+def tela_criar_conta():
+    return render_template("criar-conta.html")
+
+
+@app.route("/recuperar-senha")
+def tela_recuperar_senha():
+    return render_template("recuperar-senha.html")
 
 
 @app.route("/redefinir-senha")
@@ -111,7 +121,7 @@ def tela_redefinir_senha():
 def tela_inicio_provisoria():
     # Placeholder até criarmos a página inicial de verdade (próximo passo)
     if "usuario_id" not in session:
-        return render_template("index.html")
+        return render_template("entrar.html")
     return "<h1 style='font-family:sans-serif;padding:40px;'>Login funcionando! A página inicial entra no próximo passo.</h1>"
 
 
