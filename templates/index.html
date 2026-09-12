@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Fé & Caminho — Entrar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+
+<div class="cena" style="--imagem-fundo:url('{{ url_for("static", filename="assets/sao-miguel-arcanjo.jpg") }}');">
+  <div class="topo">
+    <p class="brasao">Fé &amp; Caminho</p>
+  </div>
+
+  <div class="conteudo">
+    <div class="cartao">
+
+      <div id="painel-boas-vindas">
+        <h1 id="titulo-principal">Bem-vindo de volta</h1>
+        <p class="subtitulo" id="subtitulo-principal">Entre para continuar sua caminhada de fé com orações, leituras e formação católica.</p>
+      </div>
+
+      <div class="abas" role="tablist">
+        <button class="aba ativa" data-aba="entrar" role="tab" aria-selected="true">Entrar</button>
+        <button class="aba" data-aba="criar" role="tab" aria-selected="false">Criar conta</button>
+        <button class="aba" data-aba="recuperar" role="tab" aria-selected="false">Recuperar acesso</button>
+      </div>
+
+      <div class="selo-erro" id="selo-erro"></div>
+
+      <!-- ENTRAR -->
+      <form class="painel ativo" id="painel-entrar" novalidate>
+        <div class="campo">
+          <label for="entrar-email">E-mail</label>
+          <input type="email" id="entrar-email" placeholder="seu@email.com" autocomplete="email" required>
+        </div>
+        <div class="campo">
+          <label for="entrar-senha">Senha</label>
+          <input type="password" id="entrar-senha" placeholder="Sua senha" autocomplete="current-password" required>
+        </div>
+        <div class="linha-auxiliar">
+          <label class="lembrar">
+            <input type="checkbox" id="lembrar-me">
+            Manter conectado
+          </label>
+          <button type="button" class="link-esqueci" data-ir="recuperar">Esqueci minha senha</button>
+        </div>
+        <button type="submit" class="btn-principal">Entrar</button>
+        <p class="rodape-painel" style="margin-top:16px;">Ainda não tem conta? <button type="button" data-ir="criar">Criar agora</button></p>
+      </form>
+
+      <!-- CRIAR CONTA -->
+      <form class="painel" id="painel-criar" novalidate>
+        <div class="campo">
+          <label for="criar-nome">Nome completo</label>
+          <input type="text" id="criar-nome" placeholder="Como podemos te chamar" autocomplete="name" required>
+        </div>
+        <div class="campo">
+          <label for="criar-email">E-mail</label>
+          <input type="email" id="criar-email" placeholder="seu@email.com" autocomplete="email" required>
+        </div>
+        <div class="campo">
+          <label for="criar-senha">Senha</label>
+          <input type="password" id="criar-senha" placeholder="Crie uma senha" autocomplete="new-password" minlength="8" required>
+        </div>
+        <div class="campo">
+          <label for="criar-senha-confirma">Confirmar senha</label>
+          <input type="password" id="criar-senha-confirma" placeholder="Repita a senha" autocomplete="new-password" required>
+        </div>
+        <button type="submit" class="btn-principal">Criar minha conta</button>
+        <p class="rodape-painel" style="margin-top:16px;">Já tem conta? <button type="button" data-ir="entrar">Entrar</button></p>
+      </form>
+
+      <!-- RECUPERAR ACESSO -->
+      <div class="painel" id="painel-recuperar">
+        <form id="form-recuperar" novalidate>
+          <p class="mensagem-recuperar">Informe o e-mail da sua conta. Enviaremos um link para você criar uma nova senha.</p>
+          <div class="campo">
+            <label for="recuperar-email">E-mail</label>
+            <input type="email" id="recuperar-email" placeholder="seu@email.com" autocomplete="email" required>
+          </div>
+          <button type="submit" class="btn-principal">Enviar link de recuperação</button>
+          <p class="rodape-painel" style="margin-top:16px;">Lembrou a senha? <button type="button" data-ir="entrar">Voltar a entrar</button></p>
+        </form>
+
+        <div class="confirmacao" id="confirmacao-recuperar">
+          <div class="icone">✓</div>
+          <h1 style="font-size:22px;">Verifique seu e-mail</h1>
+          <p class="mensagem-recuperar">Se houver uma conta com esse endereço, enviamos o link de recuperação em instantes.</p>
+          <button type="button" class="btn-principal" data-ir="entrar">Voltar a entrar</button>
+        </div>
+      </div>
+
+      <div class="divisor">ou</div>
+      <p class="rodape-painel">Ao continuar, você concorda com nossos termos e política de privacidade.</p>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const abas = document.querySelectorAll('.aba');
+  const paineis = {
+    entrar: document.getElementById('painel-entrar'),
+    criar: document.getElementById('painel-criar'),
+    recuperar: document.getElementById('painel-recuperar'),
+  };
+  const titulo = document.getElementById('titulo-principal');
+  const subtitulo = document.getElementById('subtitulo-principal');
+  const seloErro = document.getElementById('selo-erro');
+
+  const textos = {
+    entrar: {
+      titulo: 'Bem-vindo de volta',
+      subtitulo: 'Entre para continuar sua caminhada de fé com orações, leituras e formação católica.'
+    },
+    criar: {
+      titulo: 'Crie sua conta',
+      subtitulo: 'Leva menos de um minuto. Guarde seus favoritos e acompanhe seu progresso espiritual.'
+    },
+    recuperar: {
+      titulo: 'Recuperar acesso',
+      subtitulo: 'Sem problemas. Vamos te ajudar a voltar à sua conta.'
+    }
+  };
+
+  function mostrarAba(nome){
+    abas.forEach(a => {
+      const ativa = a.dataset.aba === nome;
+      a.classList.toggle('ativa', ativa);
+      a.setAttribute('aria-selected', ativa ? 'true' : 'false');
+    });
+    Object.entries(paineis).forEach(([chave, el]) => {
+      el.classList.toggle('ativo', chave === nome);
+    });
+    titulo.textContent = textos[nome].titulo;
+    subtitulo.textContent = textos[nome].subtitulo;
+    seloErro.classList.remove('mostrar');
+    document.getElementById('confirmacao-recuperar').classList.remove('mostrar');
+    document.getElementById('form-recuperar').style.display = 'block';
+  }
+
+  abas.forEach(a => a.addEventListener('click', () => mostrarAba(a.dataset.aba)));
+  document.querySelectorAll('[data-ir]').forEach(btn => {
+    btn.addEventListener('click', () => mostrarAba(btn.dataset.ir));
+  });
+
+  function exibirErro(msg){
+    seloErro.textContent = msg;
+    seloErro.classList.add('mostrar');
+  }
+
+  function travarBotao(form, travado){
+    const btn = form.querySelector('.btn-principal');
+    btn.disabled = travado;
+    btn.style.opacity = travado ? '0.6' : '1';
+  }
+
+  async function chamarApi(caminho, corpo){
+    const resposta = await fetch(caminho, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(corpo)
+    });
+    const dados = await resposta.json().catch(() => ({}));
+    if(!resposta.ok){
+      throw new Error(dados.erro || 'Algo deu errado. Tente novamente.');
+    }
+    return dados;
+  }
+
+  const formEntrar = document.getElementById('painel-entrar');
+  formEntrar.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('entrar-email').value.trim();
+    const senha = document.getElementById('entrar-senha').value;
+    if(!email || !senha){
+      exibirErro('Preencha e-mail e senha para continuar.');
+      return;
+    }
+    seloErro.classList.remove('mostrar');
+    travarBotao(formEntrar, true);
+    try{
+      await chamarApi('/api/entrar', { email, senha });
+      window.location.href = '/inicio';
+    }catch(erro){
+      exibirErro(erro.message);
+    }finally{
+      travarBotao(formEntrar, false);
+    }
+  });
+
+  const formCriar = document.getElementById('painel-criar');
+  formCriar.addEventListener('submit', async e => {
+    e.preventDefault();
+    const nome = document.getElementById('criar-nome').value.trim();
+    const email = document.getElementById('criar-email').value.trim();
+    const senha = document.getElementById('criar-senha').value;
+    const confirma = document.getElementById('criar-senha-confirma').value;
+    if(senha.length < 8){
+      exibirErro('A senha precisa ter pelo menos 8 caracteres.');
+      return;
+    }
+    if(senha !== confirma){
+      exibirErro('As senhas não coincidem.');
+      return;
+    }
+    seloErro.classList.remove('mostrar');
+    travarBotao(formCriar, true);
+    try{
+      await chamarApi('/api/registrar', { nome, email, senha });
+      mostrarAba('entrar');
+      exibirErro('Conta criada. Já pode entrar com seu e-mail e senha.');
+      seloErro.style.color = '#cfe8c9';
+    }catch(erro){
+      exibirErro(erro.message);
+    }finally{
+      travarBotao(formCriar, false);
+    }
+  });
+
+  const formRecuperar = document.getElementById('form-recuperar');
+  formRecuperar.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('recuperar-email').value.trim();
+    if(!email){
+      exibirErro('Informe um e-mail válido.');
+      return;
+    }
+    seloErro.classList.remove('mostrar');
+    travarBotao(formRecuperar, true);
+    try{
+      await chamarApi('/api/recuperar-senha', { email });
+      formRecuperar.style.display = 'none';
+      document.getElementById('confirmacao-recuperar').classList.add('mostrar');
+    }catch(erro){
+      exibirErro(erro.message);
+    }finally{
+      travarBotao(formRecuperar, false);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
