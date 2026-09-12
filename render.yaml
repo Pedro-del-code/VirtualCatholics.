@@ -1,0 +1,24 @@
+databases:
+  - name: fe-e-caminho-db
+    plan: free
+
+services:
+  - type: web
+    name: fe-e-caminho
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fe-e-caminho-db
+          property: connectionString
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_REMETENTE
+        value: onboarding@resend.dev
+      - key: APP_URL
+        sync: false
