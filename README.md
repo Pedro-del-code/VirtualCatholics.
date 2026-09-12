@@ -1,4 +1,4 @@
-# Fé & Caminho — Passo 4: recuperação de senha completa (tela de login pronta)
+# Virtualcatholics — Passo 4: recuperação de senha completa (tela de login pronta)
 
 ## O que mudou desde o passo 3
 - **E-mail de recuperação de verdade**, enviado via [Resend](https://resend.com) (tem plano gratuito).
