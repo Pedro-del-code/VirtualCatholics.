@@ -26,40 +26,42 @@ body{
   min-height:100dvh;
   display:flex;
   flex-direction:column;
-  justify-content:flex-end;
+  background:#0d1120;
+}
+
+/* Faixa da imagem: altura fixa (não depende do card abaixo),
+   então o rosto do anjo nunca fica escondido, não importa o tamanho da tela. */
+.hero{
+  position:relative;
+  height:44vh;
+  min-height:300px;
+  max-height:480px;
+  flex-shrink:0;
   overflow:hidden;
 }
 
-.cena::before{
-  content:"";
+.hero-imagem{
   position:absolute;
   inset:0;
-  background-image:var(--imagem-fundo);
-  background-size:cover;
-  background-position:center 12%;
-  z-index:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 8%;
+  display:block;
 }
 
-/* véu que escurece só a parte de baixo, preservando o rosto do anjo */
-.cena::after{
-  content:"";
+.hero-veu{
   position:absolute;
   inset:0;
-  background:linear-gradient(
-    to bottom,
-    rgba(13,17,32,0.06) 0%,
-    rgba(13,17,32,0.10) 38%,
-    rgba(13,17,32,0.55) 56%,
-    rgba(13,17,32,0.86) 70%,
-    rgba(13,17,32,0.97) 100%
-  );
-  z-index:1;
+  background:linear-gradient(to bottom, rgba(13,17,32,0) 55%, rgba(13,17,32,0.95) 100%);
 }
 
 .topo{
-  position:relative;
+  position:absolute;
+  top:calc(env(safe-area-inset-top,0px) + 20px);
+  left:0;
+  right:0;
   z-index:2;
-  padding:calc(env(safe-area-inset-top,0px) + 22px) 24px 0;
   text-align:center;
 }
 
@@ -71,11 +73,21 @@ body{
   color:var(--ouro-claro);
   opacity:0.9;
   margin:0;
+  text-shadow:0 1px 6px rgba(0,0,0,0.5);
+}
+
+.painel-inferior{
+  flex:1;
+  position:relative;
+  z-index:2;
+  margin-top:-56px;
+  background:linear-gradient(180deg, var(--azul-noite), #0d1120 60%);
+  display:flex;
+  flex-direction:column;
 }
 
 .conteudo{
-  position:relative;
-  z-index:2;
+  flex:1;
   padding:28px 20px calc(env(safe-area-inset-bottom,0px) + 28px);
 }
 
@@ -301,5 +313,5 @@ body{
 }
 
 @media (min-width:480px){
-  .cena::before{ background-position:center 8%; }
+  .hero-imagem{ object-position:center 4%; }
 }
