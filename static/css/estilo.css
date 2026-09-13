@@ -1,14 +1,4 @@
-:root{
-  --azul-noite: #171d33;
-  --azul-manto: #24304f;
-  --ouro: #c9a24b;
-  --ouro-claro: #e6cd8f;
-  --carmesim: #7a2530;
-  --creme: #f2e9d8;
-  --texto-suave: rgba(242,233,216,0.72);
-  --vidro: rgba(23,29,51,0.62);
-  --borda-vidro: rgba(201,162,75,0.35);
-}
+@import url('variaveis.css');
 
 *{box-sizing:border-box;}
 html,body{height:100%;}
