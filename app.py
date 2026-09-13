@@ -8,9 +8,10 @@ import os
 import re
 import secrets
 import datetime
+from functools import wraps
 
 import requests
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -57,6 +58,16 @@ with app.app_context():
     db.create_all()
 
 
+def login_necessario(func):
+    """Protege uma rota: sem sessão ativa, manda de volta pra tela de login."""
+    @wraps(func)
+    def decorada(*args, **kwargs):
+        if "usuario_id" not in session:
+            return redirect(url_for("tela_login"))
+        return func(*args, **kwargs)
+    return decorada
+
+
 def enviar_email_recuperacao(email_destino, link):
     """Envia o link de redefinição de senha por e-mail via Resend.
     Sem RESEND_API_KEY configurada (ex: rodando localmente), só mostra o link no console."""
@@ -98,11 +109,15 @@ def enviar_email_recuperacao(email_destino, link):
 
 @app.route("/")
 def tela_login():
+    if "usuario_id" in session:
+        return redirect(url_for("tela_inicio"))
     return render_template("entrar.html")
 
 
 @app.route("/criar-conta")
 def tela_criar_conta():
+    if "usuario_id" in session:
+        return redirect(url_for("tela_inicio"))
     return render_template("criar-conta.html")
 
 
@@ -117,12 +132,40 @@ def tela_redefinir_senha():
     return render_template("redefinir-senha.html", token=token)
 
 
+@app.route("/sair")
+def sair():
+    session.pop("usuario_id", None)
+    return redirect(url_for("tela_login"))
+
+
+# ---------- área logada (menu inferior fixo) ----------
+
 @app.route("/inicio")
-def tela_inicio_provisoria():
-    # Placeholder até criarmos a página inicial de verdade (próximo passo)
-    if "usuario_id" not in session:
-        return render_template("entrar.html")
-    return "<h1 style='font-family:sans-serif;padding:40px;'>Login funcionando! A página inicial entra no próximo passo.</h1>"
+@login_necessario
+def tela_inicio():
+    usuario = Usuario.query.get(session["usuario_id"])
+    return render_template("inicio.html", pagina_atual="inicio", usuario=usuario)
+
+
+@app.route("/oracoes")
+@login_necessario
+def tela_oracoes():
+    usuario = Usuario.query.get(session["usuario_id"])
+    return render_template("oracoes.html", pagina_atual="oracoes", usuario=usuario)
+
+
+@app.route("/leituras")
+@login_necessario
+def tela_leituras():
+    usuario = Usuario.query.get(session["usuario_id"])
+    return render_template("leituras.html", pagina_atual="leituras", usuario=usuario)
+
+
+@app.route("/perfil")
+@login_necessario
+def tela_perfil():
+    usuario = Usuario.query.get(session["usuario_id"])
+    return render_template("perfil.html", pagina_atual="perfil", usuario=usuario)
 
 
 # ---------- api ----------
