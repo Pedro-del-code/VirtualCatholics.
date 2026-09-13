@@ -1,0 +1,22 @@
+{% extends "app_base.html" %}
+{% block titulo %}Fé & Caminho — Perfil{% endblock %}
+
+{% block conteudo %}
+<h1 class="titulo-pagina">Perfil</h1>
+<p class="subtitulo-pagina">Suas informações de conta. Preferências e favoritos entram nos próximos passos.</p>
+
+<div class="perfil-cabecalho">
+  <div class="perfil-avatar">{{ (usuario.nome[0] if usuario else "?")|upper }}</div>
+  <div>
+    <p class="perfil-nome">{{ usuario.nome if usuario else "" }}</p>
+    <p class="perfil-email">{{ usuario.email if usuario else "" }}</p>
+  </div>
+</div>
+
+<section class="cartao-secao">
+  <h2>Preferências</h2>
+  <p class="texto-marcador">Notificações, tema e favoritos salvos — em breve.</p>
+</section>
+
+<a class="botao-sair" href="{{ url_for('sair') }}">Sair da conta</a>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "app_base.html" %}
+{% block titulo %}Fé & Caminho — Início{% endblock %}
+
+{% block conteudo %}
+<h1 class="titulo-pagina">Que a paz esteja com você{% if usuario %}, {{ usuario.nome.split(' ')[0] }}{% endif %}</h1>
+<p class="subtitulo-pagina">Este é o começo da sua página inicial. Em breve, aqui vão entrar o santo do dia, a leitura do dia e uma oração em destaque.</p>
+
+<section class="cartao-secao">
+  <h2>Santo do dia</h2>
+  <p class="texto-marcador">Conteúdo chegando em breve.</p>
+</section>
+
+<section class="cartao-secao">
+  <h2>Leitura do dia</h2>
+  <p class="texto-marcador">Conteúdo chegando em breve.</p>
+</section>
+
+<section class="cartao-secao">
+  <h2>Oração em destaque</h2>
+  <p class="texto-marcador">Conteúdo chegando em breve.</p>
+</section>
+{% endblock %}
